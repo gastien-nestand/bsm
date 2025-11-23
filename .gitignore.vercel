@@ -1,0 +1,8 @@
+# .gitignore additions for Vercel deployment
+
+# Vercel
+.vercel
+.vercel.json
+
+# Keep these files
+!vercel.json

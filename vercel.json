@@ -1,0 +1,31 @@
+{
+    "version": 2,
+    "buildCommand": "npm install --legacy-peer-deps && npm run build",
+    "devCommand": "npm run dev",
+    "installCommand": "npm install --legacy-peer-deps",
+    "framework": null,
+    "outputDirectory": "dist/public",
+    "env": {
+        "NODE_ENV": "production",
+        "CUSTOM_DOMAIN": "boulangeriesaintmarc.com"
+    },
+    "build": {
+        "env": {
+            "NODE_ENV": "production"
+        }
+    },
+    "routes": [
+        {
+            "src": "/health",
+            "dest": "/api/health"
+        },
+        {
+            "src": "/api/(.*)",
+            "dest": "/api/$1"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/$1"
+        }
+    ]
+}
