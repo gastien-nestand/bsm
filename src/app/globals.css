@@ -1,0 +1,108 @@
+@import "tailwindcss";
+
+:root {
+  /* Primary Colors - Warm Orange */
+  --burnt-orange: #FF6B1A;
+  --primary: #FF6B1A;
+  --primary-foreground: #FFFFFF;
+
+  /* Background Colors - Warm Cream/Beige */
+  --background: #F5F0E8;
+  --foreground: #2D2520;
+
+  /* Header/Navigation - Dark Brown */
+  --header-bg: #3D2E28;
+  --header-text: #FFFFFF;
+
+  /* Card Colors */
+  --card: #FFFFFF;
+  --card-foreground: #2D2520;
+
+  /* Secondary Colors */
+  --secondary: #FFE5D9;
+  --secondary-foreground: #2D2520;
+
+  /* Muted Colors */
+  --muted: #E8DED0;
+  --muted-foreground: #6B5D52;
+
+  /* Accent Colors */
+  --accent: #FFE5D9;
+  --accent-foreground: #2D2520;
+
+  /* Border Colors */
+  --border: #D4C4B0;
+  --ring: #FF6B1A;
+
+  /* Destructive */
+  --destructive: #DC2626;
+  --destructive-foreground: #FFFFFF;
+}
+
+@theme inline {
+  /* Map CSS variables to Tailwind */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #F5F0E8;
+    --foreground: #2D2520;
+    --card: #FFFFFF;
+    --card-foreground: #2D2520;
+    --muted: #E8DED0;
+    --muted-foreground: #6B5D52;
+    --border: #D4C4B0;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Card styling - no borders, smaller size */
+.max-w-md {
+  max-width: 420px !important;
+}
+
+.max-w-2xl {
+  max-width: 640px !important;
+}
+
+[class*="border"] {
+  border-color: transparent !important;
+}
+
+/* Cursor styles for better UX - all interactive elements show pointer */
+button:not(:disabled),
+[role="button"]:not([aria-disabled="true"]),
+a,
+select,
+[role="switch"],
+[role="combobox"],
+[data-radix-collection-item],
+.cursor-pointer {
+  cursor: pointer;
+}
+
+button:disabled,
+[aria-disabled="true"] {
+  cursor: not-allowed;
+}
