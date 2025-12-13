@@ -52,18 +52,42 @@ export default function LoginPage() {
             if (result?.ok) {
                 toast.success("Logged in successfully");
 
-                // Fetch session to check role
-                const sessionResponse = await fetch("/api/auth/session");
-                const session = await sessionResponse.json();
+                try {
+                    // Fetch session to check role with timeout
+                    const sessionResponse = await Promise.race([
+                        fetch("/api/auth/session"),
+                        new Promise((_, reject) =>
+                            setTimeout(() => reject(new Error("Session fetch timeout")), 5000)
+                        )
+                    ]) as Response;
 
-                // Redirect based on role
-                if (session?.user?.role === "admin") {
-                    router.push("/admin");
-                } else {
+                    if (!sessionResponse.ok) {
+                        throw new Error("Failed to fetch session");
+                    }
+
+                    const session = await sessionResponse.json();
+
+                    // Force router refresh to update session
+                    router.refresh();
+
+                    // Small delay to ensure session is updated
+                    await new Promise(resolve => setTimeout(resolve, 100));
+
+                    // Redirect based on role
+                    if (session?.user?.role === "admin") {
+                        router.push("/admin");
+                    } else {
+                        router.push("/");
+                    }
+                } catch (sessionError) {
+                    console.error("Session fetch error:", sessionError);
+                    // Fallback: redirect to home if session fetch fails
+                    toast.info("Redirecting...");
                     router.push("/");
                 }
             }
         } catch (error) {
+            console.error("Login error:", error);
             toast.error("An error occurred during login");
             setIsLoading(false);
         }
