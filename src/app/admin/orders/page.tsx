@@ -196,7 +196,7 @@ export default function AdminOrdersPage() {
                                             <TableCell>
                                                 <Badge
                                                     variant="secondary"
-                                                    className={paymentStatusColors[order.paymentStatus]}
+                                                    className={paymentStatusColors[order.paymentStatus as keyof typeof paymentStatusColors]}
                                                 >
                                                     {order.paymentStatus}
                                                 </Badge>
@@ -243,13 +243,13 @@ export default function AdminOrdersPage() {
                                     <p className="text-sm font-medium text-muted-foreground">Order Details</p>
                                     <div className="flex items-center gap-2">
                                         <span className="text-sm">Status:</span>
-                                        <Badge variant="secondary" className={statusColors[selectedOrder.status]}>
+                                        <Badge variant="secondary" className={statusColors[selectedOrder.status as keyof typeof statusColors]}>
                                             {selectedOrder.status}
                                         </Badge>
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <span className="text-sm">Payment:</span>
-                                        <Badge variant="secondary" className={paymentStatusColors[selectedOrder.paymentStatus]}>
+                                        <Badge variant="secondary" className={paymentStatusColors[selectedOrder.paymentStatus as keyof typeof paymentStatusColors]}>
                                             {selectedOrder.paymentStatus}
                                         </Badge>
                                     </div>

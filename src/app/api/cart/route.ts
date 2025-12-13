@@ -14,7 +14,8 @@ export async function GET() {
             );
         }
 
-        const cart = await db.getCart(session.user.id);
+        const userId = parseInt(session.user.id, 10);
+        const cart = await db.getCart(userId);
         return NextResponse.json(cart || { items: [] });
     } catch (error) {
         console.error("Error fetching cart:", error);
@@ -47,7 +48,8 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        const cart = await db.addToCart(session.user.id, productId, quantity);
+        const userId = parseInt(session.user.id, 10);
+        const cart = await db.addToCart(userId, productId, quantity);
         return NextResponse.json(cart);
     } catch (error) {
         console.error("Error adding to cart:", error);

@@ -74,7 +74,8 @@ export async function POST(request: NextRequest) {
         }
 
         // Clear the user's cart
-        await db.clearCart(session.user.id);
+        const userId = parseInt(session.user.id, 10);
+        await db.clearCart(userId);
 
         return NextResponse.json({ orderId, success: true });
     } catch (error) {
