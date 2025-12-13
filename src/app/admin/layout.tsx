@@ -15,7 +15,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         if (!loading) {
             if (!session?.user) {
                 router.push("/login");
-            } else if (session.user.role !== "admin") {
+            } else if ((session.user as any).role !== "admin") {
                 router.push("/");
             }
         }
@@ -29,7 +29,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         );
     }
 
-    if (!session?.user || session.user.role !== "admin") {
+    if (!session?.user || (session.user as any).role !== "admin") {
         return null;
     }
 
