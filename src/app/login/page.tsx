@@ -50,6 +50,8 @@ export default function LoginPage() {
             }
 
             if (result?.ok) {
+                // Small delay to ensure session cookies are set
+                await new Promise(resolve => setTimeout(resolve, 500));
                 // Use window.location for a full page reload to ensure session is loaded
                 window.location.href = "/admin";
             }
