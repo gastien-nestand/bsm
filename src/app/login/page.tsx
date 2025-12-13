@@ -37,24 +37,14 @@ export default function LoginPage() {
         setIsLoading(true);
 
         try {
-            const result = await signIn("credentials", {
+            // With redirect: true, NextAuth will handle the redirect automatically
+            // This function won't return on success, only on error
+            await signIn("credentials", {
                 email: data.email,
                 password: data.password,
-                redirect: false,
+                redirect: true,
+                callbackUrl: "/admin",
             });
-
-            if (result?.error) {
-                toast.error("Invalid email or password");
-                setIsLoading(false);
-                return;
-            }
-
-            if (result?.ok) {
-                // Small delay to ensure session cookies are set
-                await new Promise(resolve => setTimeout(resolve, 500));
-                // Use window.location for a full page reload to ensure session is loaded
-                window.location.href = "/admin";
-            }
         } catch (error) {
             console.error("Login error:", error);
             toast.error("An error occurred during login");
