@@ -87,7 +87,7 @@ export const authConfig: NextAuthConfig = {
     session: {
         strategy: "jwt",
     },
-    secret: process.env.NEXTAUTH_SECRET,
+    // Note: In NextAuth v5, the secret is automatically read from AUTH_SECRET env variable
 };
 
 export const { handlers, auth, signIn, signOut } = NextAuth(authConfig);
