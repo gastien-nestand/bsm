@@ -24,13 +24,13 @@ async function removeDuplicates() {
     console.log(`📦 Total products: ${allProducts.length}`);
 
     // Group by name to find duplicates
-    const productsByName = new Map();
+    const productsByName = new Map<string, typeof allProducts>();
 
     for (const product of allProducts) {
         if (!productsByName.has(product.name)) {
             productsByName.set(product.name, []);
         }
-        productsByName.get(product.name).push(product);
+        productsByName.get(product.name)!.push(product);
     }
 
     // Find and remove duplicates (keep the one with lowest ID)
