@@ -100,6 +100,7 @@ export const authConfig: NextAuthConfig = {
     session: {
         strategy: "jwt",
     },
+    trustHost: true, // Required for NextAuth v5 in production (Vercel)
     // Note: In NextAuth v5, the secret is automatically read from AUTH_SECRET env variable
 };
 
