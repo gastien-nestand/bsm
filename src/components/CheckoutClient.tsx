@@ -40,8 +40,8 @@ export default function CheckoutClient() {
         if (session?.user) {
             setFormData(prev => ({
                 ...prev,
-                customerName: session.user.name || "",
-                customerEmail: session.user.email || "",
+                customerName: session.user?.name || "",
+                customerEmail: session.user?.email || "",
             }));
         }
     }, [session]);
