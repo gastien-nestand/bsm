@@ -55,11 +55,11 @@ function DashboardLayoutContent({ children }: DashboardLayoutProps) {
 
   return (
     <>
-      <Sidebar collapsible="icon" className="bg-white dark:bg-gray-950">
-        <SidebarHeader className="p-4 border-b">
+      <Sidebar collapsible="icon" style={{ backgroundColor: '#ffffff' }} className="!bg-white">
+        <SidebarHeader className="p-4 border-b bg-white">
           <h1 className="font-bold truncate">{APP_TITLE}</h1>
         </SidebarHeader>
-        <SidebarContent>
+        <SidebarContent className="bg-white">
           <SidebarMenu>
             {menuItems.map((item) => {
               const isActive = pathname === item.path;
@@ -84,7 +84,7 @@ function DashboardLayoutContent({ children }: DashboardLayoutProps) {
             })}
           </SidebarMenu>
         </SidebarContent>
-        <SidebarFooter className="p-4 border-t">
+        <SidebarFooter className="p-4 border-t bg-white">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button className="flex items-center gap-2 w-full outline-none">
