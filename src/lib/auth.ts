@@ -1,5 +1,5 @@
-import NextAuth, { NextAuthConfig, DefaultSession } from "next-auth";
-import Credentials from "next-auth/providers/credentials";
+import NextAuth, { NextAuthOptions } from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
 import { z } from "zod";
 import { getUserByEmail } from "../server/db";
 import bcrypt from "bcryptjs";
@@ -10,7 +10,10 @@ declare module "next-auth" {
         user: {
             id: string;
             role: string;
-        } & DefaultSession["user"];
+            name?: string | null;
+            email?: string | null;
+            image?: string | null;
+        };
     }
 
     interface User {
@@ -26,9 +29,9 @@ declare module "next-auth/jwt" {
     }
 }
 
-export const authConfig: NextAuthConfig = {
+export const authOptions: NextAuthOptions = {
     providers: [
-        Credentials({
+        CredentialsProvider({
             name: "credentials",
             credentials: {
                 email: { label: "Email", type: "email" },
@@ -88,10 +91,6 @@ export const authConfig: NextAuthConfig = {
             }
             return session;
         },
-        async signIn({ user }) {
-            // Allow sign in
-            return true;
-        },
     },
     pages: {
         signIn: "/login",
@@ -100,8 +99,7 @@ export const authConfig: NextAuthConfig = {
     session: {
         strategy: "jwt",
     },
-    trustHost: true, // Required for NextAuth v5 in production (Vercel)
-    // Note: In NextAuth v5, the secret is automatically read from AUTH_SECRET env variable
+    secret: process.env.NEXTAUTH_SECRET,
 };
 
-export const { handlers, auth, signIn, signOut } = NextAuth(authConfig);
+export default NextAuth(authOptions);

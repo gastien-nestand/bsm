@@ -7,7 +7,7 @@ export async function middleware(request: NextRequest) {
 
     const token = await getToken({
         req: request,
-        secret: process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET, // NextAuth v5 uses AUTH_SECRET
+        secret: process.env.NEXTAUTH_SECRET,
     });
 
     console.log("[MIDDLEWARE] Token:", token ? `Found (role: ${token.role})` : "Not found");
