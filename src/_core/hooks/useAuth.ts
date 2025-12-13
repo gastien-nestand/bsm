@@ -15,10 +15,10 @@ export function useAuth(options?: UseAuthOptions) {
   }, []);
 
   const user = session?.user ? {
-    id: parseInt(session.user.id),
+    id: parseInt((session.user as any).id || "0"),
     name: session.user.name,
     email: session.user.email,
-    role: session.user.role,
+    role: (session.user as any).role,
   } : null;
 
   return {
