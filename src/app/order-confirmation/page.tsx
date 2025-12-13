@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -8,14 +8,16 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle2, Home, ShoppingBag } from "lucide-react";
 import Link from "next/link";
 
-export default function OrderConfirmationPage() {
+function OrderConfirmationContent() {
     const { t } = useTranslation();
     const searchParams = useSearchParams();
     const [orderId, setOrderId] = useState<string | null>(null);
 
     useEffect(() => {
-        const id = searchParams.get("orderId");
-        setOrderId(id);
+        if (searchParams) {
+            const id = searchParams.get("orderId");
+            setOrderId(id);
+        }
     }, [searchParams]);
 
     return (
@@ -73,5 +75,21 @@ export default function OrderConfirmationPage() {
                 </CardContent>
             </Card>
         </div>
+    );
+}
+
+export default function OrderConfirmationPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen flex items-center justify-center bg-muted/30 p-4">
+                <Card className="max-w-2xl w-full">
+                    <CardContent className="p-8 text-center">
+                        <p className="text-muted-foreground">Loading...</p>
+                    </CardContent>
+                </Card>
+            </div>
+        }>
+            <OrderConfirmationContent />
+        </Suspense>
     );
 }
