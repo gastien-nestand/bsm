@@ -1,38 +1,12 @@
-import NextAuth, { NextAuthOptions } from "next-auth";
+import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { z } from "zod";
 import { getUserByEmail } from "../server/db";
 import bcrypt from "bcryptjs";
 
-// Extend the built-in session type to include role
-declare module "next-auth" {
-    interface Session {
-        user: {
-            id: string;
-            role: string;
-            name?: string | null;
-            email?: string | null;
-            image?: string | null;
-        };
-    }
-
-    interface User {
-        id: string;
-        role: string;
-    }
-}
-
-declare module "next-auth/jwt" {
-    interface JWT {
-        id: string;
-        role: string;
-    }
-}
-
-export const authOptions: NextAuthOptions = {
+export const { handlers, auth, signIn, signOut } = NextAuth({
     providers: [
         CredentialsProvider({
-            name: "credentials",
             credentials: {
                 email: { label: "Email", type: "email" },
                 password: { label: "Password", type: "password" },
@@ -66,11 +40,10 @@ export const authOptions: NextAuthOptions = {
                 }
 
                 console.log("[AUTH] Login successful for:", email, "Role:", user.role);
-                // Return user object without password
                 return {
                     id: String(user.id),
-                    name: user.name || undefined,
-                    email: user.email || undefined,
+                    name: user.name || null,
+                    email: user.email || null,
                     role: user.role || "user",
                 };
             },
@@ -80,26 +53,19 @@ export const authOptions: NextAuthOptions = {
         async jwt({ token, user }) {
             if (user) {
                 token.id = user.id;
-                token.role = user.role;
+                token.role = (user as any).role;
             }
             return token;
         },
         async session({ session, token }) {
             if (session.user) {
-                session.user.id = token.id as string;
-                session.user.role = token.role as string;
+                (session.user as any).id = token.id;
+                (session.user as any).role = token.role;
             }
             return session;
         },
     },
     pages: {
         signIn: "/login",
-        error: "/login",
     },
-    session: {
-        strategy: "jwt",
-    },
-    secret: process.env.NEXTAUTH_SECRET,
-};
-
-export default NextAuth(authOptions);
+});
