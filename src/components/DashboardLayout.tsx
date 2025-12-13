@@ -43,7 +43,7 @@ function DashboardLayoutContent({ children }: DashboardLayoutProps) {
   const user = session?.user;
   const pathname = usePathname();
   const router = useRouter();
-  const { state } = useSidebar();
+  const { state, setOpenMobile } = useSidebar();
   const isMobile = useIsMobile();
   const isCollapsed = state === "collapsed";
 
@@ -55,7 +55,7 @@ function DashboardLayoutContent({ children }: DashboardLayoutProps) {
 
   return (
     <>
-      <Sidebar collapsible="icon">
+      <Sidebar collapsible="icon" className="bg-white dark:bg-gray-950">
         <SidebarHeader className="p-4 border-b">
           <h1 className="font-bold truncate">{APP_TITLE}</h1>
         </SidebarHeader>
@@ -67,7 +67,13 @@ function DashboardLayoutContent({ children }: DashboardLayoutProps) {
                 <SidebarMenuItem key={item.path}>
                   <SidebarMenuButton
                     isActive={isActive}
-                    onClick={() => router.push(item.path)}
+                    onClick={() => {
+                      router.push(item.path);
+                      // Auto-collapse sidebar on mobile after clicking
+                      if (isMobile) {
+                        setOpenMobile(false);
+                      }
+                    }}
                     tooltip={item.label}
                   >
                     <item.icon />
